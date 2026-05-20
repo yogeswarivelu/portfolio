@@ -127,6 +127,9 @@ function Hero() {
               View My Work
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </a>
+            <a href="/resume.pdf" download="Yogeswari-V-Resume.pdf" className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-6 py-3 text-sm font-semibold backdrop-blur transition-colors hover:bg-card">
+              <Download className="h-4 w-4" /> Resume
+            </a>
             <a href="#contact" className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-6 py-3 text-sm font-semibold backdrop-blur transition-colors hover:bg-card">
               Contact Me
             </a>

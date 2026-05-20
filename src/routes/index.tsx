@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import {
   ArrowRight, Mail, Phone, MapPin, Github, Linkedin, Sparkles,
   Code2, Palette, Smartphone, LayoutGrid, GraduationCap, Briefcase,
-  Send, ExternalLink,
+  Send, ExternalLink, Download,
 } from "lucide-react";
 import { useState } from "react";
 import portrait from "@/assets/yogeswari.png";
@@ -126,6 +126,9 @@ function Hero() {
             <a href="#projects" className="group inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-transform hover:scale-105">
               View My Work
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </a>
+            <a href="/resume.pdf" download="Yogeswari-V-Resume.pdf" className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-6 py-3 text-sm font-semibold backdrop-blur transition-colors hover:bg-card">
+              <Download className="h-4 w-4" /> Resume
             </a>
             <a href="#contact" className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-6 py-3 text-sm font-semibold backdrop-blur transition-colors hover:bg-card">
               Contact Me
@@ -438,10 +441,10 @@ function ContactItem({ icon: Icon, label, value, href }: { icon: typeof Mail; la
 
 function Footer() {
   return (
-    <footer className="border-t border-border/50 px-4 py-8">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 text-sm text-muted-foreground md:flex-row">
-        <p>© {new Date().getFullYear()} Yogeswari V. Crafted with care.</p>
-        <p className="font-display italic">Designing meaningful experiences.</p>
+    <footer className="border-t border-border/50 px-4 py-10">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-center gap-1 text-center">
+        <p className="text-sm font-semibold tracking-wide text-foreground/80">© 2026 Yogeswari V</p>
+        <p className="text-xs font-medium tracking-wide text-muted-foreground/70">Designed &amp; developed by Yogeswari V</p>
       </div>
     </footer>
   );

@@ -371,7 +371,30 @@ function Experience() {
 }
 
 function Contact() {
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus("sending");
+    setErrorMsg("");
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    try {
+      const res = await fetch("https://formsubmit.co/ajax/yogeswariveluv@gmail.com", {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: formData,
+      });
+      if (!res.ok) throw new Error("Network error");
+      setStatus("sent");
+      form.reset();
+    } catch (err) {
+      setStatus("error");
+      setErrorMsg(err instanceof Error ? err.message : "Something went wrong");
+    }
+  };
+
   return (
     <Section id="contact" eyebrow="Contact" title={<>Let's build something <span className="gradient-text">meaningful</span>.</>}>
       <div className="grid gap-6 lg:grid-cols-5">
@@ -395,20 +418,37 @@ function Contact() {
 
         <motion.form
           initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-          onSubmit={(e) => { e.preventDefault(); setSent(true); }}
+          onSubmit={handleSubmit}
           className="lg:col-span-3 rounded-3xl bg-card p-8 shadow-card"
         >
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_subject" value="New portfolio contact message" />
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="Name" name="name" placeholder="Your name" />
             <Field label="Email" name="email" type="email" placeholder="you@email.com" />
           </div>
           <div className="mt-4">
-            <label className="mb-1.5 block text-sm font-semibold">Message</label>
-            <textarea required rows={5} placeholder="Tell me about your project…" className="w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
+            <Field label="Subject" name="subject" placeholder="What's this about?" />
           </div>
-          <button type="submit" className="mt-6 inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-transform hover:scale-105">
-            {sent ? "Sent — thank you!" : "Send Message"} <Send className="h-4 w-4" />
+          <div className="mt-4">
+            <label className="mb-1.5 block text-sm font-semibold">Message</label>
+            <textarea required name="message" rows={5} placeholder="Tell me about your project…" className="w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
+          </div>
+          <button
+            type="submit"
+            disabled={status === "sending"}
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-all duration-300 hover:scale-105 hover:shadow-soft disabled:opacity-60 disabled:hover:scale-100"
+          >
+            {status === "sending" ? "Sending…" : status === "sent" ? "Sent — thank you!" : "Send Message"}
+            <Send className="h-4 w-4" />
           </button>
+          {status === "sent" && (
+            <p className="mt-4 text-sm font-medium text-primary">Your message has been sent. I'll get back to you soon!</p>
+          )}
+          {status === "error" && (
+            <p className="mt-4 text-sm font-medium text-destructive">Couldn't send your message{errorMsg ? ` (${errorMsg})` : ""}. Please try again or email me directly.</p>
+          )}
         </motion.form>
       </div>
     </Section>

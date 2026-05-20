@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import {
   ArrowRight, Mail, Phone, MapPin, Github, Linkedin, Sparkles,
   Code2, Palette, Smartphone, LayoutGrid, GraduationCap, Briefcase,
-  Send, ExternalLink,
+  Send, ExternalLink, Download,
 } from "lucide-react";
 import { useState } from "react";
 import portrait from "@/assets/yogeswari.png";

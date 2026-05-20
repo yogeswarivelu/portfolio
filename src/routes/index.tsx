@@ -441,10 +441,10 @@ function ContactItem({ icon: Icon, label, value, href }: { icon: typeof Mail; la
 
 function Footer() {
   return (
-    <footer className="border-t border-border/50 px-4 py-8">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 text-sm text-muted-foreground md:flex-row">
-        <p>© {new Date().getFullYear()} Yogeswari V. Crafted with care.</p>
-        <p className="font-display italic">Designing meaningful experiences.</p>
+    <footer className="border-t border-border/50 px-4 py-10">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-center gap-1 text-center">
+        <p className="text-sm font-semibold tracking-wide text-foreground/80">© 2026 Yogeswari V</p>
+        <p className="text-xs font-medium tracking-wide text-muted-foreground/70">Designed &amp; developed by Yogeswari V</p>
       </div>
     </footer>
   );

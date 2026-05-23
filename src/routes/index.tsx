@@ -6,7 +6,13 @@ import {
   Send, ExternalLink, Download,
 } from "lucide-react";
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
 import portrait from "@/assets/yogeswari.png";
+
+const EMAILJS_PUBLIC_KEY = "QRkq84ZgmYO9y9URk";
+const EMAILJS_SERVICE_ID = "service_ql1854o";
+const EMAILJS_TEMPLATE_ID = "template_contact";
+const RECIPIENT_EMAIL = "yogeswariveluv@gmail.com";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -379,19 +385,26 @@ function Contact() {
     setStatus("sending");
     setErrorMsg("");
     const form = e.currentTarget;
-    const formData = new FormData(form);
+    const data = new FormData(form);
     try {
-      const res = await fetch("https://formsubmit.co/ajax/yogeswariveluv@gmail.com", {
-        method: "POST",
-        headers: { Accept: "application/json" },
-        body: formData,
-      });
-      if (!res.ok) throw new Error("Network error");
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_name: String(data.get("from_name") ?? ""),
+          from_email: String(data.get("from_email") ?? ""),
+          subject: String(data.get("subject") ?? ""),
+          message: String(data.get("message") ?? ""),
+          to_email: RECIPIENT_EMAIL,
+        },
+        { publicKey: EMAILJS_PUBLIC_KEY },
+      );
       setStatus("sent");
       form.reset();
-    } catch (err) {
+    } catch (err: unknown) {
       setStatus("error");
-      setErrorMsg(err instanceof Error ? err.message : "Something went wrong");
+      const msg = err instanceof Error ? err.message : typeof err === "object" && err && "text" in err ? String((err as { text: unknown }).text) : "Something went wrong";
+      setErrorMsg(msg);
     }
   };
 
@@ -421,12 +434,9 @@ function Contact() {
           onSubmit={handleSubmit}
           className="lg:col-span-3 rounded-3xl bg-card p-8 shadow-card"
         >
-          <input type="hidden" name="_captcha" value="false" />
-          <input type="hidden" name="_template" value="table" />
-          <input type="hidden" name="_subject" value="New portfolio contact message" />
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="Name" name="name" placeholder="Your name" />
-            <Field label="Email" name="email" type="email" placeholder="you@email.com" />
+            <Field label="Name" name="from_name" placeholder="Your name" />
+            <Field label="Email" name="from_email" type="email" placeholder="you@email.com" />
           </div>
           <div className="mt-4">
             <Field label="Subject" name="subject" placeholder="What's this about?" />
@@ -435,6 +445,7 @@ function Contact() {
             <label className="mb-1.5 block text-sm font-semibold">Message</label>
             <textarea required name="message" rows={5} placeholder="Tell me about your project…" className="w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
           </div>
+          <input type="hidden" name="to_email" value={RECIPIENT_EMAIL} />
           <button
             type="submit"
             disabled={status === "sending"}

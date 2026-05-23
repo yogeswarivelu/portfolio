@@ -11,7 +11,7 @@ import portrait from "@/assets/yogeswari.png";
 
 const EMAILJS_PUBLIC_KEY = "QRkq84ZgmYO9y9URk";
 const EMAILJS_SERVICE_ID = "service_ql1854o";
-const EMAILJS_TEMPLATE_ID = "template_contact";
+const EMAILJS_TEMPLATE_ID = "template_ldkcfdn";
 const RECIPIENT_EMAIL = "yogeswariveluv@gmail.com";
 
 export const Route = createFileRoute("/")({

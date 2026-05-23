@@ -446,7 +446,6 @@ function Contact() {
             <textarea required name="message" rows={5} placeholder="Tell me about your project…" className="w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
           </div>
           <input type="hidden" name="to_email" value={RECIPIENT_EMAIL} />
-          </div>
           <button
             type="submit"
             disabled={status === "sending"}
